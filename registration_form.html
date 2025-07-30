@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ffffff;
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 4rem;
+            border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+            width: 100%;
+            max-width: 560px;
+        }
+
+        h2 {
+            margin-bottom: 2.5rem;
+            color: #1d1d1f;
+            font-size: 32px;
+            font-weight: bolder;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: #1d1d1f;
+            font-size: 18px;
+            font-weight: bolder;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid #d2d2d7;
+            border-radius: 14px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            background-color: #f5f5f7;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #0071e3;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.1);
+        }
+
+        .tooltip {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            background-color: #ff3b30;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-2px);
+            display: none;
+            z-index: 100;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(255, 59, 48, 0.2);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .tooltip::before {
+            content: '⚠️';
+            margin-right: 6px;
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 0 6px 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent #ff3b30 transparent;
+        }
+
+        .error .tooltip {
+            display: flex;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: #0071e3;
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 2rem;
+        }
+
+        button:hover {
+            background-color: #0077ED;
+            transform: scale(0.99);
+        }
+
+        .error input {
+            animation: shake 0.4s ease-in-out;
+            border-color: #ff3b30;
+            background-color: #fff;
+            box-shadow: 0 0 0 4px rgba(255, 59, 48, 0.1);
+        }
+
+        input::placeholder {
+            color: #86868b;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-4px); }
+            75% { transform: translateX(4px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Student Registration</h2>
+        <form id="registrationForm" novalidate>
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    required
+                    placeholder="Enter your full name"
+                    pattern="[A-Za-z\s]+"
+                >
+                <div class="tooltip">Please enter your full name (letters only)</div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    required
+                    placeholder="your@email.com"
+                >
+                <div class="tooltip">Please enter a valid email address</div>
+            </div>
+            <div class="form-group">
+                <label for="age">Age</label>
+                <input 
+                    type="number" 
+                    id="age" 
+                    name="age" 
+                    required
+                    placeholder="Enter your age"
+                    min="16" 
+                    max="100"
+                >
+                <div class="tooltip">Age must be between 16 and 100</div>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        const form = document.getElementById('registrationForm');
+        const inputs = form.querySelectorAll('input');
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let hasError = false;
+            
+            inputs.forEach(input => {
+                const formGroup = input.parentElement;
+                formGroup.classList.remove('error');
+                
+                if (!input.validity.valid) {
+                    formGroup.classList.add('error');
+                    hasError = true;
+                }
+            });
+
+            if (!hasError) {
+                form.submit();
+            }
+        });
+
+        inputs.forEach(input => {
+            input.addEventListener('input', (e) => {
+                const formGroup = input.parentElement;
+                formGroup.classList.remove('error');
+            });
+        });
+    </script>
+</body>
+</html>
