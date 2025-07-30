@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banking Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .banking-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .banking-header {
+            margin-bottom: 30px;
+        }
+
+        .banking-title {
+            color: #2c3e50;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .banking-subtitle {
+            color: #7f8c8d;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .balance-amount {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .balance-currency {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 16px;
+            flex-direction: column;
+        }
+
+        .bank-button {
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bank-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .bank-button:hover::before {
+            left: 100%;
+        }
+
+        .deposit-btn {
+            background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+        }
+
+        .deposit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.4);
+        }
+
+        .withdraw-btn {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .withdraw-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+        }
+
+        .bank-button:active {
+            transform: translateY(0);
+        }
+
+        /* Responsive Design */
+        @media (min-width: 768px) {
+            .button-group {
+                flex-direction: row;
+            }
+            
+            .bank-button {
+                flex: 1;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .banking-container {
+                padding: 30px 25px;
+            }
+
+            .banking-title {
+                font-size: 24px;
+            }
+
+            .balance-amount {
+                font-size: 30px;
+            }
+
+            .bank-button {
+                padding: 14px 24px;
+                font-size: 15px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .banking-container {
+                padding: 25px 20px;
+            }
+
+            .balance-card {
+                padding: 25px;
+            }
+
+            .balance-amount {
+                font-size: 26px;
+            }
+        }
+
+        /* Animation for balance card */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .balance-card {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .bank-button {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .bank-button:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+
+        .bank-button:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+    </style>
+</head>
+<body>
+    <div class="banking-container">
+        <div class="banking-header">
+            <h1 class="banking-title">CU Bank</h1>
+            <p class="banking-subtitle">Manage account</p>
+        </div>
+
+        <div class="balance-card">
+            <div class="balance-label">Current Balance</div>
+            <div class="balance-amount">$2,547.83</div>
+            <div class="balance-currency">USD</div>
+        </div>
+
+        <div class="button-group">
+            <button class="bank-button deposit-btn">
+                Deposit
+            </button>
+            <button class="bank-button withdraw-btn">
+                Withdraw
+            </button>
+        </div>
+    </div>
+</body>
+</html>
